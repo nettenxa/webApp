@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+ <head><title>JS Timer Example</title></head>
+ <body>
+  <div>
+   <h1>Timer Examples</h1>
+   <ol>
+     <li><h2>Set Timeout <button id="timeout">Try it!</button>
+         </h2><div id="timeoutContainer"></div>
+     </li>
+     <li><h2>Set Interval <button id="interval">Try it!</button>
+         </h2><div id="intervalContainer"></div>
+     </li>
+  </ol>
+ </div>
+<script>
+    onload = function() {
+      var btns = document.getElementsByTagName("button");
+      for (let btn of btns) {
+        btn.onclick = e => {
+          if (e.target.id == "timeout") {
+            var toggleShow = (function () {
+              var isClicked = false;
+              return function() {return isClicked = !isClicked;}
+            })();
+            showReminder(toggleShow, e.target);
+          }
+          else {
+            var toggleShow = (function () {
+              var isClicked = false;
+              return function() {return isClicked = !isClicked;}
+            })();
+            showCountDown(toggleShow, e.target);
+          }
+        }
+      }
+    }
+  showCountDown = function (toggleShow, btn) {
+  let container = document.getElementById("intervalContainer");
+  container.innerHTML = "Count down!";
+  let delay = 1000;
+  var counter = 0;
+  container.innerHTML = `<h2 id="count">Counter 0</h2><div>Press button to cancel the counter <button onclick="cancelCounter(event)">Cancel</button></div>`;
+  var time = setInterval(() => {
+     document.getElementById("count").innerHTML = "Counter " +
+                       (++counter);
+    }, delay);
+  cancelCounter = (e) => {
+    clearInterval(time);
+    container.innerHTML = "Counter was reset";
+    btn.disabled = toggleShow();
+  }
+  btn.disabled = toggleShow();
+}
+showReminder = (toggleShow, btn) => {
+    var container = document.getElementById("timeoutContainer");
+    let delay = 5000;
+    var reminder = setTimeout(() => {
+        container.innerHTML = "<h1>Hi!, it's time out!</h1>";
+        btn.disabled = toggleShow();
+    }, delay);
+    container.innerHTML = `Reminder: we will get back to you within ${delay/1000} sec <button onclick="cancelReminder(event)">Cancel Reminder</button>`;
+    cancelReminder = (e) => {
+        clearTimeout(reminder);
+        container.innerHTML = "Reminder was cancelled";
+        btn.disabled = toggleShow();
+    }
+    btn.disabled = toggleShow(); 
+}
+</script></body></html>
+
